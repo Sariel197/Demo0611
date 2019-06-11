@@ -35,10 +35,10 @@
     delete from user
     where uid = #{uid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.lc.demo.po.User">
-    insert into user (uid, username, password, 
+  <insert id="insert" parameterType="io.lc.demo.po.User" useGeneratedKeys="true" keyProperty="uid">
+    insert into user (username, password,
       hoildaynum)
-    values (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{hoildaynum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="io.lc.demo.po.User">

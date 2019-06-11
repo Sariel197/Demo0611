@@ -25,14 +25,20 @@ public class UserController {
             throw new Exception("username has existed");
         }
 
-        String password = user1.getPassword();
+        String password = user.getPassword();
         String salt = UUID.randomUUID().toString();
         String toEncPwd = password + salt;
 
         String encPwd = DigestUtils.md5DigestAsHex(toEncPwd.getBytes());
 
+        User user2 = new User();
+        user2.setUsername(username);
+        user2.setPassword(encPwd);
+        user2.setHoildaynum(99);
 
-        return null;
+        int insert = userMapper.insert(user2);
+
+        return insert;
     }
 
     @RequestMapping("/login")
