@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.lc.demo.dao.RestMapper">
+  <resultMap id="BaseResultMap" type="io.lc.demo.po.Rest">
+    <id column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="rname" jdbcType="VARCHAR" property="rname" />
+    <result column="rdept" jdbcType="VARCHAR" property="rdept" />
+    <result column="rtitle" jdbcType="VARCHAR" property="rtitle" />
+    <result column="rstart" jdbcType="TIMESTAMP" property="rstart" />
+    <result column="rstop" jdbcType="TIMESTAMP" property="rstop" />
+    <result column="rdaycount" jdbcType="INTEGER" property="rdaycount" />
+    <result column="rtype" jdbcType="VARCHAR" property="rtype" />
+    <result column="rresson" jdbcType="VARCHAR" property="rresson" />
+    <result column="rcheck" jdbcType="VARCHAR" property="rcheck" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    rid, rname, rdept, rtitle, rstart, rstop, rdaycount, rtype, rresson, rcheck
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rest
+    where rid = #{rid,jdbcType=INTEGER}
+  </select>
+
+  <select id="searchAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rest
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rest
+    where rid = #{rid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.lc.demo.po.Rest">
+    insert into rest (rid, rname, rdept, 
+      rtitle, rstart, rstop, 
+      rdaycount, rtype, rresson, 
+      rcheck)
+    values (#{rid,jdbcType=INTEGER}, #{rname,jdbcType=VARCHAR}, #{rdept,jdbcType=VARCHAR}, 
+      #{rtitle,jdbcType=VARCHAR}, #{rstart,jdbcType=TIMESTAMP}, #{rstop,jdbcType=TIMESTAMP}, 
+      #{rdaycount,jdbcType=INTEGER}, #{rtype,jdbcType=VARCHAR}, #{rresson,jdbcType=VARCHAR}, 
+      #{rcheck,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.lc.demo.po.Rest">
+    insert into rest
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="rname != null">
+        rname,
+      </if>
+      <if test="rdept != null">
+        rdept,
+      </if>
+      <if test="rtitle != null">
+        rtitle,
+      </if>
+      <if test="rstart != null">
+        rstart,
+      </if>
+      <if test="rstop != null">
+        rstop,
+      </if>
+      <if test="rdaycount != null">
+        rdaycount,
+      </if>
+      <if test="rtype != null">
+        rtype,
+      </if>
+      <if test="rresson != null">
+        rresson,
+      </if>
+      <if test="rcheck != null">
+        rcheck,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="rname != null">
+        #{rname,jdbcType=VARCHAR},
+      </if>
+      <if test="rdept != null">
+        #{rdept,jdbcType=VARCHAR},
+      </if>
+      <if test="rtitle != null">
+        #{rtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="rstart != null">
+        #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstop != null">
+        #{rstop,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rdaycount != null">
+        #{rdaycount,jdbcType=INTEGER},
+      </if>
+      <if test="rtype != null">
+        #{rtype,jdbcType=VARCHAR},
+      </if>
+      <if test="rresson != null">
+        #{rresson,jdbcType=VARCHAR},
+      </if>
+      <if test="rcheck != null">
+        #{rcheck,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.lc.demo.po.Rest">
+    update rest
+    <set>
+      <if test="rname != null">
+        rname = #{rname,jdbcType=VARCHAR},
+      </if>
+      <if test="rdept != null">
+        rdept = #{rdept,jdbcType=VARCHAR},
+      </if>
+      <if test="rtitle != null">
+        rtitle = #{rtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="rstart != null">
+        rstart = #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstop != null">
+        rstop = #{rstop,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rdaycount != null">
+        rdaycount = #{rdaycount,jdbcType=INTEGER},
+      </if>
+      <if test="rtype != null">
+        rtype = #{rtype,jdbcType=VARCHAR},
+      </if>
+      <if test="rresson != null">
+        rresson = #{rresson,jdbcType=VARCHAR},
+      </if>
+      <if test="rcheck != null">
+        rcheck = #{rcheck,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.lc.demo.po.Rest">
+    update rest
+    set rname = #{rname,jdbcType=VARCHAR},
+      rdept = #{rdept,jdbcType=VARCHAR},
+      rtitle = #{rtitle,jdbcType=VARCHAR},
+      rstart = #{rstart,jdbcType=TIMESTAMP},
+      rstop = #{rstop,jdbcType=TIMESTAMP},
+      rdaycount = #{rdaycount,jdbcType=INTEGER},
+      rtype = #{rtype,jdbcType=VARCHAR},
+      rresson = #{rresson,jdbcType=VARCHAR},
+      rcheck = #{rcheck,jdbcType=VARCHAR}
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+</mapper>

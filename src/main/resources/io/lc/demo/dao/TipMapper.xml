@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.lc.demo.dao.TipMapper">
+  <resultMap id="BaseResultMap" type="io.lc.demo.po.Tip">
+    <id column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="turl" jdbcType="VARCHAR" property="turl" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tid, turl, rid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tip
+    where tid = #{tid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tip
+    where tid = #{tid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.lc.demo.po.Tip">
+    insert into tip (tid, turl, rid
+      )
+    values (#{tid,jdbcType=INTEGER}, #{turl,jdbcType=VARCHAR}, #{rid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="io.lc.demo.po.Tip">
+    insert into tip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="turl != null">
+        turl,
+      </if>
+      <if test="rid != null">
+        rid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tid != null">
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="turl != null">
+        #{turl,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.lc.demo.po.Tip">
+    update tip
+    <set>
+      <if test="turl != null">
+        turl = #{turl,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null">
+        rid = #{rid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where tid = #{tid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.lc.demo.po.Tip">
+    update tip
+    set turl = #{turl,jdbcType=VARCHAR},
+      rid = #{rid,jdbcType=INTEGER}
+    where tid = #{tid,jdbcType=INTEGER}
+  </update>
+</mapper>
