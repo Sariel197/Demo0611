@@ -1,13 +1,17 @@
 package io.lc.demo.controller;
 
+import com.github.cage.Cage;
 import io.lc.demo.dao.UserMapper;
 import io.lc.demo.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
+import java.security.SecureRandom;
 
 
 @RestController@CrossOrigin@EnableAutoConfiguration
@@ -15,6 +19,12 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private HttpSession httpSession;
+
+    @Autowired
+    private SecureRandom secureRandom;
 
     @RequestMapping("/register")
     public Integer register(@RequestBody User user) throws Exception {
@@ -26,10 +36,10 @@ public class UserController {
         }
 
         String password = user.getPassword();
-        String salt = UUID.randomUUID().toString();
-        String toEncPwd = password + salt;
+     //   String salt = UUID.randomUUID().toString();
+     //   String toEncPwd = password + salt;
 
-        String encPwd = DigestUtils.md5DigestAsHex(toEncPwd.getBytes());
+        String encPwd = DigestUtils.md5DigestAsHex(password.getBytes());
 
         User user2 = new User();
         user2.setUsername(username);
@@ -42,14 +52,35 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public User login(@RequestParam(required = false) String username,
+    public void login(@RequestParam(required = false) String username,
                       @RequestParam(required = false) String password) throws Exception {
         User user = userMapper.selectByUser(username,password);
         if (user == null){
-            throw new Exception("username doesn't exist");
+            throw new Exception("Login warning! Error account!");
         }
 
-       // user.getSalt();
-        return user;
+        String encPwd = user.getPassword();
+         String OrEncPwd = DigestUtils.md5DigestAsHex(password.getBytes());
+
+        if(!encPwd.equals(OrEncPwd)){
+            throw new Exception("Error passWord!");
+        }
+        String sessionId = httpSession.getId();
+        httpSession.setAttribute(sessionId,user);
+
+
     }
+
+    @GetMapping(value = "/getCaptcha",produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getCaptcha(){
+        byte[] bytes = secureRandom.generateSeed(2);
+        String captcha = DatatypeConverter.printHexBinary(bytes);
+        String sessionId = httpSession.getId();
+        httpSession.setAttribute(sessionId+"captcha",captcha);
+        Cage cage = new Cage();
+        byte[] draw = cage.draw(captcha);
+
+        return draw;
+    }
+
 }
