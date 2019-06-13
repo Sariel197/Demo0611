@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/css/elementui.css">
+    <title>UserRegister</title>
+</head>
+
+<body>
+    <div id="app"  align="center">
+        <el-input v-model="username" placeholder="请输入账号" style="width: 60%"></el-input>
+        <br/>
+        <el-input v-model="password" placeholder="请输入密码" style="width: 60%"></el-input> <br/>
+        <el-input v-model="captcha" placeholder="请输入验证码" style="width: 28%"></el-input> 
+        <img src="http://localhost:8080/user/getCaptcha" alt=""><br/>
+
+        <el-button type="primary" @click="handleRegister">提交</el-button>
+
+    </div>
+
+
+    <script src="assets/js/axios.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="assets/js/elementui.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="viewmodels/register.js"></script>
+
+</body>
+
+</html>

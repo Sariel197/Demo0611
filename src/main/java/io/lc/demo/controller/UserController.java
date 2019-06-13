@@ -54,13 +54,16 @@ public class UserController {
     @RequestMapping("/login")
     public void login(@RequestParam(required = false) String username,
                       @RequestParam(required = false) String password) throws Exception {
-        User user = userMapper.selectByUser(username,password);
+
+        String OrEncPwd = DigestUtils.md5DigestAsHex(password.getBytes());
+
+        User user = userMapper.selectByUser(username,OrEncPwd);
         if (user == null){
             throw new Exception("Login warning! Error account!");
         }
 
         String encPwd = user.getPassword();
-         String OrEncPwd = DigestUtils.md5DigestAsHex(password.getBytes());
+
 
         if(!encPwd.equals(OrEncPwd)){
             throw new Exception("Error passWord!");
